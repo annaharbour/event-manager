@@ -1,0 +1,35 @@
+{
+  "name": "ponyclub",
+  "version": "1.0.0",
+  "description": "site for ponyclub volunteers",
+  "main": "server.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node server",
+    "server": "nodemon server",
+    "client": "npm start --prefix client",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
+  },
+  "author": "Anna Harbour",
+  "license": "MIT",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "boostrap": "^2.0.0",
+    "config": "^3.3.9",
+    "express": "^4.18.2",
+    "express-validator": "^7.0.1",
+    "gravatar": "^1.8.2",
+    "jsonwebtoken": "^9.0.0",
+    "mongoose": "^7.3.0",
+    "node": "^20.2.0",
+    "node-fetch": "^2.6.11",
+    "normalize": "^0.3.1",
+    "normalize-url": "^8.0.0",
+    "request": "^2.88.2"
+  },
+  "devDependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
+    "concurrently": "^8.2.0",
+    "nodemon": "^2.0.22"
+  }
+}
