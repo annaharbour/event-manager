@@ -15,7 +15,9 @@ const Landing = ({isAuthenticated}) => {
       <div className="landing-inner">
         <h1 className="x-large">Pony Club</h1>
         <p className="lead">
-          Sign up for your role at our next event!
+          Sign up for your role at our next show jumping event!
+          <br></br>
+          July 27th-30th
         </p>
         <div className="buttons">
           <Link to="/register" className="btn btn-primLinkry">Sign Up</Link>

@@ -1,9 +1,21 @@
 :root {
-  --primary-color: #F6A611;
-  --dark-color: #343a40;
+  --primary-color: #D39C1A;
+  --dark-color: #14377D
+  ;
   --light-color: #f4f4f4;
-  --danger-color: #dc3545;
-  --success-color: #28a745;
+  --danger-color: #BE1E22;
+  --success-color: #5C9340;
+  
+
+  /* Logo and Major Headings */
+  --major-heading-color: #14377D;
+  --major-heading-font: 'Times New Roman';
+  /* Addresses, cutlines, subheads */
+  --subhead-style: italic;
+  --subhead-color: #A6257A;
+  --reversed-subhead-color: #D9BF5D;
+  /* Tagline and subheads */
+  --tagline-subhead-color: #D39C1A;
 }
 
 * {
@@ -13,16 +25,12 @@
 }
 
 body {
-  font-family: 'Raleway', sans-serif;
+  font-family: 'myriad-pro', 'Times New Roman', Times, serif;
   font-size: 1rem;
   line-height: 1.6;
   background-color: #fff;
   color: #333;
-}
-
-a {
-  color: var(--primary-color);
-  text-decoration: none;
+  
 }
 
 ul {
@@ -32,6 +40,8 @@ ul {
 img {
   width: 100%;
 }
+
+
 
 /* Utilities */
 .container {
@@ -271,21 +281,13 @@ button {
   width: 4rem;
 }
 
-.form .social-input i.fa-twitter {
-  color: #38a1f3;
-}
 .form .social-input i.fa-facebook {
   color: #3b5998;
 }
 .form .social-input i.fa-instagram {
   color: #3f729b;
 }
-.form .social-input i.fa-youtube {
-  color: #c4302b;
-}
-.form .social-input i.fa-linkedin {
-  color: #0077b5;
-}
+
 
 .table th,
 .table td {
@@ -332,7 +334,7 @@ button {
 /* Landing Page */
 .landing {
   position: relative;
-  background: url('./img/showcase.jpg') no-repeat center center/cover;
+  background: url('./img/melanie-hartshorn-a13wxQW_ULo-unsplash.jpg') no-repeat center center/cover;
   height: 100vh;
 }
 
@@ -365,8 +367,7 @@ button {
   grid-template-areas:
     'top top'
     'about about'
-    'exp edu'
-    'github github';
+    'exp edu';
   grid-gap: 1rem;
 }
 
@@ -434,23 +435,23 @@ button {
   margin: 0.5rem 0;
 }
 
-.profile-github {
+/* .profile-github {
   grid-area: github;
-}
+} */
 
-.profile-github .repo {
+/* .profile-github .repo {
   display: flex;
-}
+} */
 
-.profile-github .repo > div:first-child {
+/* .profile-github .repo > div:first-child {
   flex: 7;
   flex-basis: 70%;
-}
+} */
 
-.profile-github > div:last-child {
+/* .profile-github > div:last-child {
   flex: 3;
   flex-basis: 20%;
-}
+} */
 
 /* Posts Page */
 .post-form .post-form-header {
@@ -552,8 +553,7 @@ button {
       'top'
       'about'
       'exp'
-      'edu'
-      'github';
+      'edu';
   }
 
   .profile-about .skills {

@@ -138,31 +138,6 @@ export const addExperience = (formData) => async (dispatch) => {
     }
   };
   
-  // Add Education
-  export const addEducation = (formData) => async (dispatch) => {
-    try {
-      const res = await axios.put('/api/profile/education', formData);
-  
-      dispatch({
-        type: UPDATE_PROFILE,
-        payload: res.data
-      });
-  
-      dispatch(setAlert('Education Added', 'success'));
-      return res.data;
-    } catch (err) {
-      const errors = err.response.data.errors;
-  
-      if (errors) {
-        errors.forEach((error) => dispatch(setAlert(error.msg, 'danger')));
-      }
-  
-      dispatch({
-        type: PROFILE_ERROR,
-        payload: { msg: err.response.statusText, status: err.response.status }
-      });
-    }
-  };
   
   // Delete experience
   export const deleteExperience = (id) => async (dispatch) => {
@@ -183,24 +158,6 @@ export const addExperience = (formData) => async (dispatch) => {
     }
   };
   
-  // Delete education
-  export const deleteEducation = (id) => async (dispatch) => {
-    try {
-      const res = await axios.delete(`/api/profile/education/${id}`);
-  
-      dispatch({
-        type: UPDATE_PROFILE,
-        payload: res.data
-      });
-  
-      dispatch(setAlert('Education Removed', 'success'));
-    } catch (err) {
-      dispatch({
-        type: PROFILE_ERROR,
-        payload: { msg: err.response.statusText, status: err.response.status }
-      });
-    }
-  };
   
   //Delete account & profile
   //Delete account & profile

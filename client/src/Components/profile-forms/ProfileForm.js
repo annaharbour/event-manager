@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useMatch, useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -10,13 +10,7 @@ import { createProfile, getCurrentProfile } from '../../actions/profile';
   we can then safely use this to construct our profileData
  */
 const initialState = {
-  company: '',
-  location: '',
-  status: '',
-  skills: '',
-  bio: '',
-  facebook: '',
-  instagram: ''
+  notes: ''
 };
 
 const ProfileForm = ({
@@ -25,8 +19,6 @@ const ProfileForm = ({
   getCurrentProfile
 }) => {
   const [formData, setFormData] = useState(initialState);
-
-  const [displaySocialInputs, toggleSocialInputs] = useState(false);
 
   const creatingProfile = useMatch('/create-profile');
 
@@ -43,25 +35,12 @@ const ProfileForm = ({
       for (const key in profile) {
         if (key in profileData) profileData[key] = profile[key];
       }
-      for (const key in profile.social) {
-        if (key in profileData) profileData[key] = profile.social[key];
-      }
-      // the skills may be an array from our API response
-      if (Array.isArray(profileData.skills))
-        profileData.skills = profileData.skills.join(', ');
-      // set local state with the profileData
       setFormData(profileData);
     }
   }, [loading, getCurrentProfile, profile]);
 
   const {
-    company,
-    location,
-    status,
-    skills,
-    bio,
-    facebook,
-    instagram
+    notes
   } = formData;
 
   const onChange = (e) =>
@@ -83,112 +62,21 @@ const ProfileForm = ({
       <p className="lead">
         <i className="fas fa-user" />
         {creatingProfile
-          ? ` Let's get some information to make your`
+          ? ` Let's get some information to make your profile`
           : ' Add some changes to your profile'}
       </p>
       <small>* = required field</small>
       <form className="form" onSubmit={onSubmit}>
-        <div className="form-group">
-          <select name="status" value={status} onChange={onChange}>
-            <option>* Select Professional Status</option>
-            <option value="Developer">Developer</option>
-            <option value="Junior Developer">Junior Developer</option>
-            <option value="Senior Developer">Senior Developer</option>
-            <option value="Manager">Manager</option>
-            <option value="Student or Learning">Student or Learning</option>
-            <option value="Instructor">Instructor or Teacher</option>
-            <option value="Intern">Intern</option>
-            <option value="Other">Other</option>
-          </select>
-          <small className="form-text">
-            Give us an idea of where you are at in your career
-          </small>
-        </div>
-        <div className="form-group">
-          <input
-            type="text"
-            placeholder="Company"
-            name="company"
-            value={company}
-            onChange={onChange}
-          />
-          <small className="form-text">
-            Could be your own company or one you work for
-          </small>
-        </div>
-        <div className="form-group">
-          <input
-            type="text"
-            placeholder="Location"
-            name="location"
-            value={location}
-            onChange={onChange}
-          />
-          <small className="form-text">
-            City & State
-          </small>
-        </div>
-        <div className="form-group">
-          <input
-            type="text"
-            placeholder="* Skills"
-            name="skills"
-            value={skills}
-            onChange={onChange}
-          />
-          <small className="form-text">
-            Please use comma separated values (eg. HTML,CSS,JavaScript,PHP)
-          </small>
-        </div>
+     
         <div className="form-group">
           <textarea
-            placeholder="A short bio of yourself"
-            name="bio"
-            value={bio}
+            placeholder="i.e. standing in the sun for long periods"
+            name="notes"
+            value={notes}
             onChange={onChange}
           />
-          <small className="form-text">Tell us a little about yourself</small>
+          <small className="form-text">Tell us if there's anything you can't or don't want to do</small>
         </div>
-
-        <div className="my-2">
-          <button
-            onClick={() => toggleSocialInputs(!displaySocialInputs)}
-            type="button"
-            className="btn btn-light"
-          >
-            Add Social Network Links
-          </button>
-          <span>Optional</span>
-        </div>
-
-        {displaySocialInputs && (
-          <Fragment>
-
-            <div className="form-group social-input">
-              <i className="fab fa-facebook fa-2x" />
-              <input
-                type="text"
-                placeholder="Facebook URL"
-                name="facebook"
-                value={facebook}
-                onChange={onChange}
-              />
-            </div>
-
-
-            <div className="form-group social-input">
-              <i className="fab fa-instagram fa-2x" />
-              <input
-                type="text"
-                placeholder="Instagram URL"
-                name="instagram"
-                value={instagram}
-                onChange={onChange}
-              />
-            </div>
-          </Fragment>
-        )}
-
         <input type="submit" className="btn btn-primary my-1" />
         <Link className="btn btn-light my-1" to="/dashboard">
           Go Back
