@@ -37,14 +37,12 @@ router.post('/',
         return res.status(400).json({ errors: errors.array() });
         }
      const {
-      notes,
       // spread the rest of the fields we don't need to check
       ...rest
     } = req.body;
     //build a profile object
     const profileFields = {
-        user: req.user.id,
-      
+        user: req.user.id, 
         ...rest
     };
     try {
@@ -54,7 +52,10 @@ router.post('/',
             {$set: profileFields},
             {new: true, upsert: true, setDefaultsOnInsert: true}
         );
+        console.log(profile)
         return res.json(profile);    
+        
+        
     } catch(err) {
         console.error(err.message);
         return res.status(500).send('Server Error');
