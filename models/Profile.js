@@ -11,19 +11,26 @@ const ProfileSchema = new mongoose.Schema({
     date: {
     type: Date,
     default: Date.now},
-      experience: [
+      assignment: [
         {
-            title: {
+            day1am: {
                 type: String,
-                required: true,
             },
-            company: {
+            day1pm: {
                 type: String,
-                required: true,
             },
-            location: {
+            day2am: {
                 type: String,
-            }
+            },
+            day2pm: {
+                type: String,
+            },
+            day3am: {
+                type: String,
+            },
+            day3pm: {
+                type: String,
+            },
         },
     ],
 });

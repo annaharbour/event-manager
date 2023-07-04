@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { getCurrentProfile, deleteAccount } from '../../actions/profile';
 import Spinner from '../Layout/Spinner';
 import DashboardActions from './DashboardActions';
-import Experience from './Experience';
+import Assignment from './Assignment';
 
 const Dashboard = ({ getCurrentProfile, deleteAccount, auth : {user}, profile: { profile, loading } }) => {
 useEffect(() => {
@@ -24,7 +24,7 @@ useEffect(() => {
       {profile !==null ? (
         <>
       <DashboardActions />
-      <Experience experience={profile.experience} />
+      <Assignment assignment={profile.assignment} />
 
       <div className='my-2'>
         <button className='btn btn-danger' onClick={() => deleteAccount()}>

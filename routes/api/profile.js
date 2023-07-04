@@ -118,15 +118,50 @@ router.delete('/', auth, async (req, res) => {
     }
 });
 
-//@route PUT api/profile/experience
-//@desc Add profile experience
+//@route PUT api/profile/assignment
+//@desc Add profile assignment
 //@access Private
 router.put(
-    '/experience',
+    '/assignment',
     auth,
-    check('company', 'Company is required').notEmpty(),
-    check('location', 'Location is required').notEmpty(),
-    check('title', 'Title is required').notEmpty(),
+    [
+      check('day1am', 'Sign up for at least one volunteer slot').custom((value, { req }) => {
+        if (!value && !req.body.day1pm && !req.body.day2am && !req.body.day2pm && !req.body.day3am && !req.body.day3pm) {
+          throw new Error('At least one volunteer slot must be selected');
+        }
+        return true;
+      }),
+      check('day1pm', 'Sign up for at least one volunteer slot').custom((value, { req }) => {
+        if (!value && !req.body.day1am && !req.body.day2am && !req.body.day2pm && !req.body.day3am && !req.body.day3pm) {
+          throw new Error('At least one volunteer slot must be selected');
+        }
+        return true;
+      }),
+      check('day2am', 'Sign up for at least one volunteer slot').custom((value, { req }) => {
+        if (!value && !req.body.day1am && !req.body.day1pm && !req.body.day2pm && !req.body.day3am && !req.body.day3pm) {
+          throw new Error('At least one volunteer slot must be selected');
+        }
+        return true;
+      }),
+      check('day2pm', 'Sign up for at least one volunteer slot').custom((value, { req }) => {
+        if (!value && !req.body.day1am && !req.body.day1pm && !req.body.day2am && !req.body.day3am && !req.body.day3pm) {
+          throw new Error('At least one volunteer slot must be selected');
+        }
+        return true;
+      }),
+      check('day3am', 'Sign up for at least one volunteer slot').custom((value, { req }) => {
+        if (!value && !req.body.day1am && !req.body.day1pm && !req.body.day2am && !req.body.day2pm && !req.body.day3pm) {
+          throw new Error('At least one volunteer slot must be selected');
+        }
+        return true;
+      }),
+      check('day3pm', 'Sign up for at least one volunteer slot').custom((value, { req }) => {
+        if (!value && !req.body.day1am && !req.body.day1pm && !req.body.day2am && !req.body.day2pm && !req.body.day3am) {
+          throw new Error('At least one volunteer slot must be selected');
+        }
+        return true;
+      })
+    ],
     async (req, res) => {
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
@@ -136,7 +171,7 @@ router.put(
       try {
         const profile = await Profile.findOne({ user: req.user.id });
           
-        profile.experience.unshift(req.body);
+        profile.assignment.unshift(req.body);
   
         await profile.save();
   
@@ -151,16 +186,16 @@ router.put(
 //@route DELETE api/profile/experience
 //@desc Delete profile experience
 //@access Private
-router.delete('/experience/:exp_id',
+router.delete('/assignment/:exp_id',
     auth,
     async (req, res) => {
         try {
             const profile = await Profile.findOne({ user: req.user.id });
             
             //Get remove index
-            const removeIndex = profile.experience.map(item => item.id).indexOf(req.params.exp_id);
+            const removeIndex = profile.assignment.map(item => item.id).indexOf(req.params.exp_id);
             
-            profile.experience.splice(removeIndex, 1);
+            profile.assignment.splice(removeIndex, 1);
             
             await profile.save()
             

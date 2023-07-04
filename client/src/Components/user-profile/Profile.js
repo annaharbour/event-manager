@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import Spinner from '../Layout/Spinner';
 import ProfileTop from './ProfileTop';
 import ProfileAbout from './ProfileAbout';
-import ProfileExperience from './ProfileExperience';
+import ProfileAssignment from './ProfileAssignment';
 import { getProfileById } from '../../actions/profile';
 
 const Profile = ({ getProfileById, profile: { profile }, auth }) => {
@@ -34,13 +34,13 @@ const Profile = ({ getProfileById, profile: { profile }, auth }) => {
             <ProfileTop profile={profile} />
             <ProfileAbout profile={profile} /> 
             <div className="profile-exp bg-white p-2">
-              <h2 className="text-primary">Experience</h2>
-              {profile.experience.length > 0 ? (
+              <h2 className="text-primary">Assignments</h2>
+              {profile.assignment.length > 0 ? (
                 <Fragment>
-                  {profile.experience.map((experience) => (
-                    <ProfileExperience
-                      key={experience._id}
-                      experience={experience}
+                  {profile.assignment.map((assignment) => (
+                    <ProfileAssignment
+                      key={assignment._id}
+                      assignment={assignment}
                     />
                   ))}
                 </Fragment>

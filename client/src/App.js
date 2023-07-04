@@ -10,7 +10,7 @@ import ProfileForm from './Components/profile-forms/ProfileForm';
 import EditProfile from './Components/profile-forms/EditProfile';
 import Profiles from './Components/profiles/Profiles';
 import Profile from './Components/user-profile/Profile';
-import AddExperience from './Components/profile-forms/AddExperience';
+import AddAssignment from './Components/profile-forms/AddAssignment';
 import Posts from './Components/posts/Posts';
 import Post from './Components/post/Post';
 import PrivateRoute from './Components/routing/PrivateRoute';
@@ -53,8 +53,8 @@ const App = () => {
             element={<PrivateRoute component={EditProfile} />}
           />
           <Route
-            path="add-experience"
-            element={<PrivateRoute component={AddExperience} />}
+            path="add-assignment"
+            element={<PrivateRoute component={AddAssignment} />}
           />
           <Route
             path="posts"

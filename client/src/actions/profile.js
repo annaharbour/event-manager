@@ -112,17 +112,17 @@ export const createProfile = (formData, edit = false) => async dispatch => {
 }
 
 
-// Add Experience
-export const addExperience = (formData) => async (dispatch) => {
+// Add Assignment
+export const addAssignment = (formData) => async (dispatch) => {
     try {
-      const res = await axios.put('/api/profile/experience', formData);
+      const res = await axios.put('/api/profile/assignment', formData);
   
       dispatch({
         type: UPDATE_PROFILE,
         payload: res.data
       });
   
-      dispatch(setAlert('Experience Added', 'success'));
+      dispatch(setAlert('Assignment Added', 'success'));
       return res.data;
     } catch (err) {
       const errors = err.response.data.errors;
@@ -138,18 +138,17 @@ export const addExperience = (formData) => async (dispatch) => {
     }
   };
   
-  
-  // Delete experience
-  export const deleteExperience = (id) => async (dispatch) => {
+  // Delete Assignment
+  export const deleteAssignment = (id) => async (dispatch) => {
     try {
-      const res = await axios.delete(`/api/profile/experience/${id}`);
+      const res = await axios.delete(`/api/profile/assignment/${id}`);
   
       dispatch({
         type: UPDATE_PROFILE,
         payload: res.data
       });
   
-      dispatch(setAlert('Experience Removed', 'success'));
+      dispatch(setAlert('Assignment Removed', 'success'));
     } catch (err) {
       dispatch({
         type: PROFILE_ERROR,
