@@ -4,15 +4,20 @@ import { connect } from 'react-redux';
 import { deleteAssignment } from '../../actions/profile';
 
 const Assignment = ({ assignment, deleteAssignment }) => {
+  if (!assignment.length) {
+    return (
+      <div style={{marginTop: '3em'}}>You don't have any assignments yet.</div>
+    )
+  }
 
   const assignments = assignment.map((ass) => (
     <tr key={ass._id}>
-      <td>{ass.day1am}</td>
-      <td>{ass.day2pm}</td>
-      <td>Test</td>
+      <td>{ass.jobName}</td>
+      <td className="capitalize">{ass.day}</td>
+      <td className="uppercase">{ass.ampm}</td>
       <td>
         <button
-          onClick={() => deleteAssignment(ass._id)}
+          onClick={() => window.confirm('Are you sure you want to remove this assignment?') && deleteAssignment(ass._id)}
           className="btn btn-danger"
         >
           Delete

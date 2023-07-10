@@ -5,7 +5,7 @@
   --light-color: #f4f4f4;
   --danger-color: #BE1E22;
   --success-color: #5C9340;
-  
+
 
   /* Logo and Major Headings */
   --major-heading-color: #14377D;
@@ -30,7 +30,7 @@ body {
   line-height: 1.6;
   background-color: #fff;
   color: #333;
-  
+
 }
 
 ul {
@@ -580,4 +580,24 @@ button {
   top: 4rem;
   right: 2rem;
   display: inline-block;
+}
+
+.capitalize {
+  text-transform: capitalize;
+}
+
+.uppercase {
+  text-transform: uppercase;
+}
+
+.flex {
+  display: flex;
+}
+
+.justify-between {
+  justify-content: space-between;
+}
+
+.space-x-1 > * + * {
+  margin-left: 0.5em;
 }

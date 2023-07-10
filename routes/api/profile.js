@@ -2,24 +2,27 @@ const express = require('express');
 const router = express.Router();
 const auth = require('../../middleware/auth');
 const {check, validationResult} = require('express-validator');
-const checkObjectId = require('../../middleware/checkObjectId')
 
 const Profile = require('../../models/Profile');
-const User = require('../../models/User')
-const Post = require('../../models/Post')
+const User = require('../../models/User');
+const Post = require('../../models/Post');
+const Assignment = require('../../models/Assignment');
 // @route GET api/profile/me
 //@desc Get current users profile
 // @access Private
 
 router.get('/me', auth, async (req, res) => {
     try {
-        const profile = await Profile.findOne({ user: req.user.id }).populate('user', ['name']);
+        const profile = await Profile.findOne({ user: req.user.id }).populate('user', ['name', 'isAdmin']);
 
         if(!profile) {
             return res.status(400).json({ msg: 'There is no profile for this user' });
         }
 
-        res.json(profile);
+        // Get the assignments for this user so we can display on the dashboard
+        const assignments = await Assignment.find({assignedTo: {$in: [profile.user._id]}});
+
+        res.json({profile, assignments});
     } catch (err) {
         console.error(err.message);
         res.status(500).send('Server error');
@@ -29,8 +32,8 @@ router.get('/me', auth, async (req, res) => {
 // @route POST api/profile
 //@desc Create or update user profile
 // @access Private
-router.post('/', 
-    auth, 
+router.post('/',
+    auth,
     async(req, res) => {
         const errors = validationResult(req);
         if(!errors.isEmpty()){
@@ -42,7 +45,7 @@ router.post('/',
     } = req.body;
     //build a profile object
     const profileFields = {
-        user: req.user.id, 
+        user: req.user.id,
         ...rest
     };
     try {
@@ -53,9 +56,7 @@ router.post('/',
             {new: true, upsert: true, setDefaultsOnInsert: true}
         );
         console.log(profile)
-        return res.json(profile);    
-        
-        
+        return res.json(profile);
     } catch(err) {
         console.error(err.message);
         return res.status(500).send('Server Error');
@@ -170,11 +171,11 @@ router.put(
 
       try {
         const profile = await Profile.findOne({ user: req.user.id });
-          
+
         profile.assignment.unshift(req.body);
-  
+
         await profile.save();
-  
+
         res.json(profile);
       } catch (err) {
         console.error(err.message);
@@ -191,14 +192,14 @@ router.delete('/assignment/:exp_id',
     async (req, res) => {
         try {
             const profile = await Profile.findOne({ user: req.user.id });
-            
+
             //Get remove index
             const removeIndex = profile.assignment.map(item => item.id).indexOf(req.params.exp_id);
-            
+
             profile.assignment.splice(removeIndex, 1);
-            
+
             await profile.save()
-            
+
             res.json(profile);
 
         } catch(err){
