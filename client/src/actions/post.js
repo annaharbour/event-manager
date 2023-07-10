@@ -11,7 +11,7 @@ import {
     REMOVE_COMMENT
 } from './types';
 
-// Get Posts 
+// Get Posts
 export const getPosts = () => async dispatch => {
     try {
         const res = await axios.get('/api/posts');
@@ -27,7 +27,7 @@ export const getPosts = () => async dispatch => {
     }
 };
 
-// Get Posts 
+// Get Posts
 export const getPost = (id) => async dispatch => {
     try {
         const res = await axios.get(`/api/posts/${id}`);
@@ -81,12 +81,12 @@ export const removeLike = (id) => async dispatch => {
 export const deletePost = (id) => async (dispatch) => {
     try {
       await axios.delete(`api/posts/${id}`);
-  
+
       dispatch({
         type: DELETE_POST,
         payload: id
       });
-  
+
       dispatch(setAlert('Post Removed', 'success'));
     } catch (err) {
       dispatch({
@@ -105,12 +105,12 @@ export const addPost = (formData) => async (dispatch) => {
     }
     try {
         const res = await axios.post('api/posts', formData, config);
-       
+
         dispatch({
           type: ADD_POST,
           payload: res.data
         });
-    
+
         dispatch(setAlert('Post Created', 'success'));
       } catch (err) {
         dispatch({
@@ -135,7 +135,7 @@ export const addComment = (postId, formData) => async (dispatch) => {
         type: ADD_COMMENT,
         payload: res.data
       });
-  
+
       dispatch(setAlert('Comment Added', 'success'));
     } catch (err) {
       dispatch({
@@ -144,17 +144,17 @@ export const addComment = (postId, formData) => async (dispatch) => {
       });
     }
   };
-  
+
   // Delete comment
   export const deleteComment = (postId, commentId) => async (dispatch) => {
     try {
       await axios.delete(`/api/posts/comment/${postId}/${commentId}`);
-  
+
       dispatch({
         type: REMOVE_COMMENT,
         payload: commentId
       });
-  
+
       dispatch(setAlert('Comment Removed', 'success'));
     } catch (err) {
       dispatch({

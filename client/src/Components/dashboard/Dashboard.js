@@ -7,10 +7,10 @@ import Spinner from '../Layout/Spinner';
 import DashboardActions from './DashboardActions';
 import Assignment from './Assignment';
 
-const Dashboard = ({ getCurrentProfile, deleteAccount, auth : {user}, profile: { profile, loading } }) => {
-useEffect(() => {
+const Dashboard = ({ getCurrentProfile, deleteAccount, auth : {user}, profile: { profile, assignments, loading } }) => {
+  useEffect(() => {
     getCurrentProfile();
-}, [getCurrentProfile]);
+  }, [getCurrentProfile]);
 
   return loading && profile === null ?  (
     <Spinner/>
@@ -19,12 +19,12 @@ useEffect(() => {
       <h1 className='large text-primary'>Dashboard</h1>
       <p className='lead'>
         <i className='fas fa-user'></i>
-        Welcome { user && user.name}
+        Welcome { user?.name}
       </p>
       {profile !==null ? (
         <>
       <DashboardActions />
-      <Assignment assignment={profile.assignment} />
+      <Assignment assignment={assignments} />
 
       <div className='my-2'>
         <button className='btn btn-danger' onClick={() => deleteAccount()}>
@@ -53,7 +53,7 @@ Dashboard.propTypes = {
 
 const mapStateToProps = state => ({
     auth: state.auth,
-    profile: state.profile
+    profile: state.profile,
 });
 
 export default connect(mapStateToProps, { getCurrentProfile, deleteAccount })(Dashboard)

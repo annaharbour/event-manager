@@ -15,7 +15,8 @@ function profileReducer(state=initialState, action) {
         case UPDATE_PROFILE:
             return {
                 ...state,
-                profile: payload,
+                profile: payload?.profile,
+                assignments: payload?.assignments,
                 loading: false
             };
         case GET_PROFILES:
