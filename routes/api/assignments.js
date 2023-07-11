@@ -5,6 +5,7 @@ const auth = require('../../middleware/auth');
 const Assignment = require('../../models/Assignment');
 const User = require("../../models/User");
 const capitalize = require("../../utils/capitalize");
+const { error } = require('console');
 
 router.get('/', auth, async (req, res) => {
   // const user = await User.findById('64a70d8f7b340903292e235f');
@@ -26,7 +27,10 @@ router.patch('/:id', auth, async (req, res) => {
 
   // find the requested assignment
   const assignment = await Assignment.findOne({_id: req.params.id}).populate(population);
-
+  if(assignment.assignedTo.length >= assignment.maxAssignees){
+    res.json({success: false, message: 'This time slot is full'})
+    return
+  }
   // find the same assignment where the requested user is already assigned, this will be null if that is not the case
   const isAlreadyAssigned = await Assignment.findOne({assignedTo: [userIdToAssign], day: assignment.day, ampm: assignment.ampm}).populate(population);
 
@@ -53,9 +57,19 @@ router.patch('/:id', auth, async (req, res) => {
 });
 
 router.delete('/:id', auth, async (req, res) => {
+  let userId = req.user.id
+  const currentUser = await User.findById(userId);
+  console.log({currentUser, isAdmin : currentUser.isAdmin, selectedUserId: req.body.selectedUserId})
+  if(currentUser.isAdmin && req.body.selectedUserId){
+    console.log('Removing user', req.body.selectedUserId)
+    userId = req.body.selectedUserId
+
+  }
+
+
   const response = await Assignment.findOneAndUpdate(
     {_id: req.params.id},
-    {$pull: {assignedTo: req.user.id}}
+    {$pull: {assignedTo: userId}}
   );
 
   res.json({success: response});
