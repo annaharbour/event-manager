@@ -53,7 +53,6 @@ export const getProfiles = () => async dispatch => {
 
 //Get profile by id
 export const getProfileById = (userId) => async dispatch => {
-  dispatch({ type: CLEAR_PROFILE });
   try {
       const res = await axios.get(`/api/profile/user/${userId}`);
 
@@ -136,9 +135,10 @@ export const addAssignment = (formData) => async (dispatch) => {
   };
 
   // Delete Assignment
-  export const deleteAssignment = (id) => async (dispatch) => {
+  export const deleteAssignment = (id, selectedUserId) => async (dispatch) => {
     try {
-      await axios.delete(`/api/assignments/${id}`);
+      console.log("axios", id, selectedUserId)
+      await axios.delete(`/api/assignments/${id}`, {data: {selectedUserId: selectedUserId}});
       await getCurrentProfile()(dispatch);
 
       dispatch(setAlert('Assignment Removed', 'success'));

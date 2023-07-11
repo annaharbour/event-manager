@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Link, useParams } from 'react-router-dom';
 import { connect } from 'react-redux';
@@ -7,12 +7,23 @@ import ProfileTop from './ProfileTop';
 import ProfileAbout from './ProfileAbout';
 import ProfileAssignment from './ProfileAssignment';
 import { getProfileById } from '../../actions/profile';
+import axios from 'axios';
 
-const Profile = ({ getProfileById, profile: { profile }, auth }) => {
+const Profile = ({ getProfileById, auth }) => {
   const { id } = useParams();
-  useEffect(() => {
-    getProfileById(id);
+  const [profile, setProfile] = useState();
+  const [assignments, setAssignments] = useState([]);
+  useEffect( () => {
+   axios.get(`/api/profile/user/${id}`).then((res) => {
+    setProfile(res.data.profile)
+    setAssignments(res.data.assignments);
+  });
   }, [getProfileById, id]);
+  if(!profile) {
+    return null
+  } else {
+    console.log(profile)
+  }
 
   return (
     <section className="container">
@@ -32,12 +43,12 @@ const Profile = ({ getProfileById, profile: { profile }, auth }) => {
             )}
           <div className="profile-grid my-1">
             <ProfileTop profile={profile} />
-            <ProfileAbout profile={profile} /> 
+            <ProfileAbout profile={profile} />
             <div className="profile-exp bg-white p-2">
               <h2 className="text-primary">Assignments</h2>
-              {profile.assignment.length > 0 ? (
+              {assignments.length > 0 ? (
                 <Fragment>
-                  {profile.assignment.map((assignment) => (
+                  {assignments.map((assignment) => (
                     <ProfileAssignment
                       key={assignment._id}
                       assignment={assignment}
@@ -64,6 +75,7 @@ Profile.propTypes = {
 
 const mapStateToProps = (state) => ({
   profile: state.profile,
+  assignments: state.assignments,
   auth: state.auth
 });
 

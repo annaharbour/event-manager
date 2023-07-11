@@ -87,7 +87,8 @@ router.get('/user/:user_id', async (req, res) => {
       if(!profile){
         return res.status(400).json({ msg: 'Profile not found'});
       }
-      res.json(profile);
+      const assignments = await Assignment.find({assignedTo: {$in: [req.params.user_id]}});
+      res.json({profile, assignments});
     } catch(err){
         console.error(err.message);
         if(err.kind == 'ObjectId') {

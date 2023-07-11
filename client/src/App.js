@@ -23,7 +23,7 @@ import { loadUser } from './actions/auth';
 import './App.css';
 
 const App = () => {
-  
+
   useEffect(() => {
     if(localStorage.token) {
       setAuthToken(localStorage.token)
@@ -38,8 +38,8 @@ const App = () => {
         <Navbar />
           <Alert/>
           <Routes>
-          <Route path="/profiles" element={<Profiles />} />
-          <Route path="/profile/:id" element={<Profile />} />
+          <Route path="/profiles" element={<PrivateRoute component={Profiles} />} />
+          <Route path="/profile/:id" element={<PrivateRoute component={Profile} />} />
           <Route
             path="dashboard"
             element={<PrivateRoute component={Dashboard} />}

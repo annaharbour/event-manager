@@ -12,8 +12,6 @@ export default function AssignmentJob({assignment, getAssignments}) {
   // here we can use `useSelector` to pull a piece of data out of the store. These can also be on their
   // own modules and imported to prevent you from having to rewrite them elsewhere. They are just simple functions.
   const {_id: userId, isAdmin} = useSelector(({profile}) => profile?.profile?.user || {});
-  const profile = useSelector(({profile}) => profile);
-  console.log(userId, isAdmin, profile)
 
   const profiles = useSelector(({profile: {profiles}}) => profiles);
 
@@ -73,7 +71,15 @@ export default function AssignmentJob({assignment, getAssignments}) {
             arrayTheSizeOfMaxAssignees.map((_val, idx) => {
               return (
                 <ul key={`assignee_${assignment._id}_slot_${idx}`} style={{display: 'flex', listStyle: 'inside'}}>
-                  <li>{assignment.assignedTo[idx]?.name || 'Empty Slot'}</li>
+                  <li>
+                    {assignment.assignedTo[idx]?.name || 'Empty Slot'}
+                    {isAdmin && assignment.assignedTo[idx]?.name && (
+                      <span onClick={()=> {
+                        console.log(assignment._id, assignment.assignedTo[idx]?._id)
+                        dispatch(deleteAssignment(assignment._id, assignment.assignedTo[idx]?._id)).finally(getAssignments)
+                      }}>Delete</span>
+                    )}
+                  </li>
                 </ul>
               )
             })
