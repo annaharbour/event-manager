@@ -465,8 +465,8 @@ button {
 
 /* Assignment */
 ul .assignees {
-  display: 'flex';
-  list-style: 'inside';
+  display: flex;
+  list-style: inside;
   justify-items: center;
 }
 
