@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { deleteAssignment } from '../../actions/profile';
 
-const Assignment = ({ assignment, deleteAssignment }) => {
+const Assignment = ({ assignment = [], deleteAssignment }) => {
   if (!assignment.length) {
     return (
       <div style={{marginTop: '3em'}}>You don't have any assignments yet.</div>
