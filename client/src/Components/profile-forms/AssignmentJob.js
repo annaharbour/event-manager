@@ -40,10 +40,8 @@ export default function AssignmentJob({assignment, getAssignments}) {
 
   return (
     <div key={`job_assignment_${assignment._id}`}>
-      <div 
-      // className='flex justify-between items-center'
-      >
-        <div className="lead">{assignment.jobName}</div>
+      <div className='flex justify-between items-center'>
+        <div>{assignment.jobName}</div>
         <form onSubmit={(e) => {
           e.preventDefault();
 
@@ -54,14 +52,17 @@ export default function AssignmentJob({assignment, getAssignments}) {
 
           assignUser();
         }}>
-          {!isAssignedToDay ? 
-            <button disabled={completelyFilled && !isAssignedToDay} className="btn btn-dark" type="submit">Assign Me</button>  
-          : 
-          <button disabled={completelyFilled && !isAssignedToDay} className="btn btn-danger" type="submit">Remove Me</button>
-        }
+          <button disabled={completelyFilled && !isAssignedToDay} type="submit">
+            { !isAssignedToDay ? 'Assign me' : 'Remove me' }
+          </button>
         </form>
       </div>
-      <div>
+      <div  style={{
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+        height: '100%',
+      }}>
         <div>
           {
             // We want to show the user how many slots there are available, so let's create an empty array
@@ -71,12 +72,12 @@ export default function AssignmentJob({assignment, getAssignments}) {
               return (
                 <ul key={`assignee_${assignment._id}_slot_${idx}`} style={{display: 'flex', listStyle: 'inside'}}>
                   <li>
-                    {assignment.assignedTo[idx]?.name || 'Available'}
+                    {assignment.assignedTo[idx]?.name || 'Empty Slot'}
                     {isAdmin && assignment.assignedTo[idx]?.name && (
-                      <button className="btn btn-small btn-danger" onClick={()=> {
+                      <span onClick={()=> {
                         console.log(assignment._id, assignment.assignedTo[idx]?._id)
                         dispatch(deleteAssignment(assignment._id, assignment.assignedTo[idx]?._id)).finally(getAssignments)
-                      }}>Remove</button>
+                      }}>Delete</span>
                     )}
                   </li>
                 </ul>
@@ -90,13 +91,11 @@ export default function AssignmentJob({assignment, getAssignments}) {
               <br />
               <hr />
               <br />
-              <form className="form"
-              // style={{
-              //   width: '100%',
-              //   justifyContent: 'space-evenly',
-              //   display: 'flex'
-              // }} 
-              onSubmit={(e) => {
+              <form style={{
+                width: '100%',
+                justifyContent: 'space-evenly',
+                display: 'flex'
+              }} onSubmit={(e) => {
                 e.preventDefault();
                 const data = new FormData(e.target);
                 assignUser(Object.fromEntries(data.entries()));
@@ -110,7 +109,7 @@ export default function AssignmentJob({assignment, getAssignments}) {
                     })
                   }
                 </select>
-                <button className="btn btn-small btn-primary" type='submit'>Assign User</button>
+                <button type='submit'>Assign</button>
               </form>
             </div>
           )
