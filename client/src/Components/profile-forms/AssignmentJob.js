@@ -38,6 +38,9 @@ export default function AssignmentJob({assignment, getAssignments}) {
   // This way they won't have to go back to the dashboard to undo an assignment
   const isAssignedToDay = !!assignment.assignedTo.find(({_id}) => _id === userId);
 
+  const spotsLeft = arrayTheSizeOfMaxAssignees.length - assignment.assignedTo.length;
+
+
   return (
     <div key={`job_assignment_${assignment._id}`}>
       <div 
@@ -64,14 +67,17 @@ export default function AssignmentJob({assignment, getAssignments}) {
       <div>
         <div>
           {
+          !completelyFilled ? <span className="available-roles">{spotsLeft} Available</span> : null }
+          
+          {
             // We want to show the user how many slots there are available, so let's create an empty array
             // the size of the max number of assignees. As we map that array, use the current index to see
             // if there is an assigned user at that index. If so, show that user's name
             arrayTheSizeOfMaxAssignees.map((_val, idx) => {
               return (
-                <ul key={`assignee_${assignment._id}_slot_${idx}`} style={{display: 'flex', listStyle: 'inside'}}>
+                <ul key={`assignee_${assignment._id}_slot_${idx}`}>
                   <li>
-                    {assignment.assignedTo[idx]?.name || 'Available'}
+                    {assignment.assignedTo[idx]?.name}
                     {isAdmin && assignment.assignedTo[idx]?.name && (
                       <button className="btn btn-small btn-danger" onClick={()=> {
                         console.log(assignment._id, assignment.assignedTo[idx]?._id)

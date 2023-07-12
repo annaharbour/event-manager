@@ -75,7 +75,7 @@ const EditProfile = ({
             value={notes}
             onChange={onChange}
           />
-          <small className="form-text">Let us know if there's anything you can't do</small>
+          <p>Let us know if there's anything you can't do</p>
         </div>
 
         <input type="submit" className="btn btn-primary my-1" />

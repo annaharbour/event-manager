@@ -23,7 +23,7 @@ const AddAssignment = () => {
     <>
       <section className="container">
       <h1 className="large text-primary">Volunteer</h1>
-        <p className='lead'>Volunteer for our next event taking place July 27th-30th!</p>
+        <p className='lead'>Volunteer for our next event July 27th - 30th!</p>
         {
           Object.keys(assignments).map((day) => {
             const assignmentsForDayKey = assignments[day];
@@ -33,13 +33,12 @@ const AddAssignment = () => {
                   <h3>{day}</h3>
                 </div>
                 <br />
-                <div className="flex" 
-                style={{justifyContent: 'space-around', flexWrap: 'wrap'}}
-                >
+                <div className="grid grid-col">
                   {
                     assignmentsForDayKey.map((a) => {
                       return (
                         <div
+                          className='job'
                           key={`assignment_list_${day}_assignment_id_${a._id}`}>
                           <AssignmentJob assignment={a} getAssignments={getAssignments} />
                         </div>
