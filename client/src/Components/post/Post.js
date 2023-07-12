@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, useLocation } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Spinner from '../Layout/Spinner';
 import PostItem from '../posts/PostItem';
@@ -9,6 +9,7 @@ import CommentItem from '../post/CommentItem';
 import { getPost } from '../../actions/post';
 
 const Post = ({ getPost, post: { post, loading } }) => {
+  const location = useLocation();
   const { id } = useParams();
   useEffect(() => {
     getPost(id);
@@ -21,7 +22,7 @@ const Post = ({ getPost, post: { post, loading } }) => {
       <Link to="/posts" className="btn">
         Back To Posts
       </Link>
-      <PostItem post={post} showActions={false} />
+      <PostItem post={post} showActions={false}  isCommentsActive={location.pathname.includes(`/posts/${post._id}`)}/>
       <CommentForm postId={post._id} />
       <div className="comments">
         {post.comments.map((comment) => (
