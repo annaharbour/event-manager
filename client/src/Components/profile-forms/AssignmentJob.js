@@ -97,11 +97,6 @@ export default function AssignmentJob({assignment, getAssignments}) {
               <hr />
               <br />
               <form className="form"
-              // style={{
-              //   width: '100%',
-              //   justifyContent: 'space-evenly',
-              //   display: 'flex'
-              // }} 
               onSubmit={(e) => {
                 e.preventDefault();
                 const data = new FormData(e.target);

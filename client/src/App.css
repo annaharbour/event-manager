@@ -264,6 +264,7 @@ img {
 .form input[type='email'],
 .form input[type='password'],
 .form input[type='date'],
+.form select,
 .form textarea {
   display: block;
   width: 100%;
@@ -273,9 +274,7 @@ img {
 }
 
 .form select {
-  font-size: .8rem;
-  padding: .2rem;
-  border: 1px solid #ccc;
+  font-size: 1rem;
 }
 
 .form input[type='submit'],
