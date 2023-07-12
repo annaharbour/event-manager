@@ -1,9 +1,8 @@
 import React, {useEffect, useState} from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import {addAssignment, getProfiles} from '../../actions/profile';
-import axios from "axios";
 import {useDispatch} from "react-redux";
 import AssignmentJob from "./AssignmentJob";
 import {getAssignments} from '../../fetchers'
@@ -17,12 +16,14 @@ const AddAssignment = () => {
       setAssignments(assignmentsByJob)
     })
     dispatch(getProfiles());
-  }, []);
+  }, [dispatch]);
 
 
   return (
     <>
       <section className="container">
+      <h1 className="large text-primary">Volunteer</h1>
+        <p className='lead'>Volunteer for our next event taking place July 27th-30th!</p>
         {
           Object.keys(assignments).map((day) => {
             const assignmentsForDayKey = assignments[day];
@@ -32,21 +33,14 @@ const AddAssignment = () => {
                   <h3>{day}</h3>
                 </div>
                 <br />
-                <div className="flex" style={{justifyContent: 'space-around', flexWrap: 'wrap'}}>
+                <div className="flex" 
+                style={{justifyContent: 'space-around', flexWrap: 'wrap'}}
+                >
                   {
                     assignmentsForDayKey.map((a) => {
                       return (
                         <div
-                          key={`assignment_list_${day}_assignment_id_${a._id}`}
-                          style={{
-                          width: '49%',
-                          marginRight: '5px',
-                          border: '1px gray solid',
-                          padding: '1em',
-                          borderRadius: '0.5em',
-                          marginBottom: '1em',
-                          height: '100%',
-                        }}>
+                          key={`assignment_list_${day}_assignment_id_${a._id}`}>
                           <AssignmentJob assignment={a} getAssignments={getAssignments} />
                         </div>
                       );
@@ -72,3 +66,4 @@ AddAssignment.propTypes = {
 };
 
 export default connect(null, { addAssignment })(AddAssignment);
+
