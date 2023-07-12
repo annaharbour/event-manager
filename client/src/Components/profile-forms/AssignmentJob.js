@@ -4,7 +4,7 @@ import axios from "axios";
 import {setAlert} from "../../actions/alert";
 import {deleteAssignment} from "../../actions/profile";
 
-export default function AssignmentJob({assignment, getAssignments}) {
+export default function AssignmentJob({assignment, onAssigned}) {
   // you don't need to use `connect()` to map an action as a dispatcher, you can
   // use this `useDispatch()` hook to get the dispatcher. Just a suggestion, but both will work fine.
   const dispatch = useDispatch();
@@ -28,7 +28,7 @@ export default function AssignmentJob({assignment, getAssignments}) {
     axios.patch(`/api/assignments/${assignment._id}`, userIdOverride).then(({data: {success, message}}) => {
       if (success) dispatch(setAlert('Assignment added', 'success'));
       if (!success) dispatch(setAlert(message, 'danger'));
-    }).finally(getAssignments);
+    }).finally(onAssigned);
   }
 
   // disable the "assign me" button if all the slots are assigned.
@@ -38,46 +38,50 @@ export default function AssignmentJob({assignment, getAssignments}) {
   // This way they won't have to go back to the dashboard to undo an assignment
   const isAssignedToDay = !!assignment.assignedTo.find(({_id}) => _id === userId);
 
+  const spotsLeft = arrayTheSizeOfMaxAssignees.length - assignment.assignedTo.length;
+
   return (
     <div key={`job_assignment_${assignment._id}`}>
-      <div className='flex justify-between items-center'>
-        <div>{assignment.jobName}</div>
+      <div
+      // className='flex justify-between items-center'
+      >
+        <div className="lead">{assignment.jobName}</div>
         <form onSubmit={(e) => {
           e.preventDefault();
 
           if (isAssignedToDay) {
-            dispatch(deleteAssignment(assignment._id)).finally(getAssignments);
+            dispatch(deleteAssignment(assignment._id)).finally(onAssigned);
             return;
           }
 
           assignUser();
         }}>
-          <button disabled={completelyFilled && !isAssignedToDay} type="submit">
-            { !isAssignedToDay ? 'Assign me' : 'Remove me' }
-          </button>
+          {!isAssignedToDay ?
+            <button disabled={completelyFilled && !isAssignedToDay} className="btn btn-dark" type="submit">Assign Me</button>
+          :
+          <button disabled={completelyFilled && !isAssignedToDay} className="btn btn-danger" type="submit">Remove Me</button>
+        }
         </form>
       </div>
-      <div  style={{
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'space-between',
-        height: '100%',
-      }}>
+      <div>
         <div>
+          {
+          !completelyFilled ? <span className="available-roles">{spotsLeft} Available</span> : null }
+
           {
             // We want to show the user how many slots there are available, so let's create an empty array
             // the size of the max number of assignees. As we map that array, use the current index to see
             // if there is an assigned user at that index. If so, show that user's name
             arrayTheSizeOfMaxAssignees.map((_val, idx) => {
               return (
-                <ul key={`assignee_${assignment._id}_slot_${idx}`} style={{display: 'flex', listStyle: 'inside'}}>
+                <ul key={`assignee_${assignment._id}_slot_${idx}`}>
                   <li>
-                    {assignment.assignedTo[idx]?.name || 'Empty Slot'}
+                    {assignment.assignedTo[idx]?.name}
                     {isAdmin && assignment.assignedTo[idx]?.name && (
-                      <span onClick={()=> {
+                      <button className="btn btn-small btn-danger" onClick={()=> {
                         console.log(assignment._id, assignment.assignedTo[idx]?._id)
-                        dispatch(deleteAssignment(assignment._id, assignment.assignedTo[idx]?._id)).finally(getAssignments)
-                      }}>Delete</span>
+                        dispatch(deleteAssignment(assignment._id, assignment.assignedTo[idx]?._id)).finally(onAssigned)
+                      }}>Remove</button>
                     )}
                   </li>
                 </ul>
@@ -91,11 +95,8 @@ export default function AssignmentJob({assignment, getAssignments}) {
               <br />
               <hr />
               <br />
-              <form style={{
-                width: '100%',
-                justifyContent: 'space-evenly',
-                display: 'flex'
-              }} onSubmit={(e) => {
+              <form className="form"
+              onSubmit={(e) => {
                 e.preventDefault();
                 const data = new FormData(e.target);
                 assignUser(Object.fromEntries(data.entries()));
@@ -109,7 +110,7 @@ export default function AssignmentJob({assignment, getAssignments}) {
                     })
                   }
                 </select>
-                <button type='submit'>Assign</button>
+                <button className="btn btn-small btn-primary" type='submit'>Assign User</button>
               </form>
             </div>
           )

@@ -197,6 +197,12 @@ img {
   color: #fff;
 }
 
+.btn-small {
+  padding: .3rem;
+  margin: 1rem;
+  font-size: .8rem;
+}
+
 .btn-success,
 .bg-success,
 .badge-success,
@@ -267,27 +273,14 @@ img {
   border: 1px solid #ccc;
 }
 
+.form select {
+  font-size: 1rem;
+}
+
 .form input[type='submit'],
 button {
   font: inherit;
 }
-
-.form .social-input {
-  display: flex;
-}
-
-.form .social-input i {
-  padding: 0.5rem;
-  width: 4rem;
-}
-
-.form .social-input i.fa-facebook {
-  color: #3b5998;
-}
-.form .social-input i.fa-instagram {
-  color: #3f729b;
-}
-
 
 .table th,
 .table td {
@@ -435,24 +428,6 @@ button {
   margin: 0.5rem 0;
 }
 
-/* .profile-github {
-  grid-area: github;
-} */
-
-/* .profile-github .repo {
-  display: flex;
-} */
-
-/* .profile-github .repo > div:first-child {
-  flex: 7;
-  flex-basis: 70%;
-} */
-
-/* .profile-github > div:last-child {
-  flex: 3;
-  flex-basis: 20%;
-} */
-
 /* Posts Page */
 .post-form .post-form-header {
   background: var(--primary-color);
@@ -487,6 +462,38 @@ button {
   font-size: 0.8rem;
   margin-bottom: 0.5rem;
 }
+
+/* Assignment */
+ul .assignees {
+  display: flex;
+  list-style: inside;
+  justify-items: center;
+}
+
+.assignment-button-wrapper {
+  display: block;
+  margin-top: 1rem;
+}
+
+.grid {
+  display: grid;
+  grid-gap: 1rem;
+  text-align: center;
+}
+
+.grid-col {
+  grid-template-columns: repeat(3,minmax(0,1fr));
+}
+
+.job {
+  border: .1rem solid #ccc;
+  padding: 1.5rem;
+}
+
+.available-roles {
+  color: var(--success-color)
+}
+
 
 /* Mobile Styles */
 @media (max-width: 700px) {
@@ -601,3 +608,4 @@ button {
 .space-x-1 > * + * {
   margin-left: 0.5em;
 }
+

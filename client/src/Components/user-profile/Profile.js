@@ -56,7 +56,7 @@ const Profile = ({ getProfileById, auth }) => {
                   ))}
                 </Fragment>
               ) : (
-                <h4>No experience credentials</h4>
+                <h4>No assignments yet</h4>
               )}
             </div>
           </div>
