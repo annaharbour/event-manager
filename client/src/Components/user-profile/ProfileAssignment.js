@@ -39,6 +39,30 @@ function ProfileAssignment(){
       )
     })}
   </>
+  )
+
+  return (
+  <div>
+    <h3 className="text-dark">Assignment</h3>
+    <p>
+      <strong>Day One AM: </strong>
+    </p>
+    <p>
+      <strong>Day One PM: </strong>
+    </p>
+    <p>
+      <strong>Day Two AM: </strong>
+    </p>
+    <p>
+      <strong>Day Two PM: </strong>
+    </p>
+    <p>
+      <strong>Day Three AM: </strong>
+    </p>
+    <p>
+      <strong>Day Three PM: </strong>
+    </p>
+  </div>
 )};
 ProfileAssignment.propTypes = {
   assignment: PropTypes.object.isRequired
