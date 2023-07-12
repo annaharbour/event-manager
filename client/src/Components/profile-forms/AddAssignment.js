@@ -12,12 +12,15 @@ const AddAssignment = () => {
   const [assignments, setAssignments] = useState({});
 
   useEffect(() => {
-    getAssignments().then((assignmentsByJob) => {
-      setAssignments(assignmentsByJob)
-    })
+    refresh();
     dispatch(getProfiles());
   }, [dispatch]);
 
+  function refresh() {
+    getAssignments().then((assignmentsByJob) => {
+      setAssignments(assignmentsByJob);
+    });
+  }
 
   return (
     <>
@@ -33,14 +36,14 @@ const AddAssignment = () => {
                   <h3>{day}</h3>
                 </div>
                 <br />
-                <div className="grid grid-col">
+                <div className="grid grid-col grid-col-3">
                   {
                     assignmentsForDayKey.map((a) => {
                       return (
                         <div
                           className='job'
                           key={`assignment_list_${day}_assignment_id_${a._id}`}>
-                          <AssignmentJob assignment={a} getAssignments={getAssignments} />
+                          <AssignmentJob assignment={a} onAssigned={refresh} />
                         </div>
                       );
                     })
