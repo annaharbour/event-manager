@@ -4,7 +4,7 @@ import axios from "axios";
 import {setAlert} from "../../actions/alert";
 import {deleteAssignment} from "../../actions/profile";
 
-export default function AssignmentJob({assignment, getAssignments}) {
+export default function AssignmentJob({assignment, onAssigned}) {
   // you don't need to use `connect()` to map an action as a dispatcher, you can
   // use this `useDispatch()` hook to get the dispatcher. Just a suggestion, but both will work fine.
   const dispatch = useDispatch();
@@ -28,7 +28,7 @@ export default function AssignmentJob({assignment, getAssignments}) {
     axios.patch(`/api/assignments/${assignment._id}`, userIdOverride).then(({data: {success, message}}) => {
       if (success) dispatch(setAlert('Assignment added', 'success'));
       if (!success) dispatch(setAlert(message, 'danger'));
-    }).finally(getAssignments);
+    }).finally(onAssigned);
   }
 
   // disable the "assign me" button if all the slots are assigned.
@@ -40,10 +40,9 @@ export default function AssignmentJob({assignment, getAssignments}) {
 
   const spotsLeft = arrayTheSizeOfMaxAssignees.length - assignment.assignedTo.length;
 
-
   return (
     <div key={`job_assignment_${assignment._id}`}>
-      <div 
+      <div
       // className='flex justify-between items-center'
       >
         <div className="lead">{assignment.jobName}</div>
@@ -51,15 +50,15 @@ export default function AssignmentJob({assignment, getAssignments}) {
           e.preventDefault();
 
           if (isAssignedToDay) {
-            dispatch(deleteAssignment(assignment._id)).finally(getAssignments);
+            dispatch(deleteAssignment(assignment._id)).finally(onAssigned);
             return;
           }
 
           assignUser();
         }}>
-          {!isAssignedToDay ? 
-            <button disabled={completelyFilled && !isAssignedToDay} className="btn btn-dark" type="submit">Assign Me</button>  
-          : 
+          {!isAssignedToDay ?
+            <button disabled={completelyFilled && !isAssignedToDay} className="btn btn-dark" type="submit">Assign Me</button>
+          :
           <button disabled={completelyFilled && !isAssignedToDay} className="btn btn-danger" type="submit">Remove Me</button>
         }
         </form>
@@ -68,7 +67,7 @@ export default function AssignmentJob({assignment, getAssignments}) {
         <div>
           {
           !completelyFilled ? <span className="available-roles">{spotsLeft} Available</span> : null }
-          
+
           {
             // We want to show the user how many slots there are available, so let's create an empty array
             // the size of the max number of assignees. As we map that array, use the current index to see
@@ -81,7 +80,7 @@ export default function AssignmentJob({assignment, getAssignments}) {
                     {isAdmin && assignment.assignedTo[idx]?.name && (
                       <button className="btn btn-small btn-danger" onClick={()=> {
                         console.log(assignment._id, assignment.assignedTo[idx]?._id)
-                        dispatch(deleteAssignment(assignment._id, assignment.assignedTo[idx]?._id)).finally(getAssignments)
+                        dispatch(deleteAssignment(assignment._id, assignment.assignedTo[idx]?._id)).finally(onAssigned)
                       }}>Remove</button>
                     )}
                   </li>

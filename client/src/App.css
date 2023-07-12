@@ -465,8 +465,8 @@ button {
 
 /* Assignment */
 ul .assignees {
-  display: 'flex';
-  list-style: 'inside';
+  display: flex;
+  list-style: inside;
   justify-items: center;
 }
 
@@ -477,12 +477,12 @@ ul .assignees {
 
 .grid {
   display: grid;
-  grid-gap: 10px;
+  grid-gap: 1rem;
   text-align: center;
 }
 
 .grid-col {
-  grid-template-columns: repeat(auto-fill, 300px);
+  grid-template-columns: repeat(3,minmax(0,1fr));
 }
 
 .job {
