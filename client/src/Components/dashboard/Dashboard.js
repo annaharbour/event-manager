@@ -40,6 +40,8 @@ const Dashboard = ({ getCurrentProfile, deleteAccount, auth : {user}, profile: {
         </Link>
       </Fragment>
       )}
+      <p className='line'></p>
+      <p className='small'>If you have any questions or concerns, email us at <i>< a href="mailto:sj.east.secretary@ponyclub.org?subject=assignment">sj.east.secretary@ponyclub.org</a></i></p>
     </section>
     );
 };
