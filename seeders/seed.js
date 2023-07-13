@@ -10,6 +10,9 @@ await collection.insertOne({jobName: 'Judges Scribe', day: 'friday', ampm: 'am',
 await collection.insertOne({jobName: 'Jump Crew', day: 'friday', ampm: 'am', maxAssignees: 4, assignedTo: [] });
 await collection.insertOne({jobName: 'Put me where needed', day: 'friday', ampm: 'am', maxAssignees: 1, assignedTo: [] });
 await collection.insertOne({jobName: 'Score Runner', day: 'friday', ampm: 'am', maxAssignees: 1, assignedTo: [] });
+
+
+
 await collection.insertOne({jobName: 'Announcer Scribe', day: 'friday', ampm: 'pm', maxAssignees: 2, assignedTo: [] });
 await collection.insertOne({jobName: 'In Gate Steward', day: 'friday', ampm: 'pm', maxAssignees: 2, assignedTo: [] });
 await collection.insertOne({jobName: 'Judges Scribe', day: 'friday', ampm: 'pm', maxAssignees: 2, assignedTo: [] });
