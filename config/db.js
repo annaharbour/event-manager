@@ -1,10 +1,5 @@
 const mongoose = require('mongoose');
 
 module.exports = () => {
-    return mongoose.connect(
-        {
-    mongoURI: process.env.mongoURI,
-    jwtSecret: process.env.jwtSecret
-}
-    )
+    return mongoose.connect(process.env.mongoURI)
 }
