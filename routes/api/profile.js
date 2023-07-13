@@ -103,21 +103,55 @@ router.get('/user/:user_id', async (req, res) => {
 //@route DELETE api/profile
 //@desc Delete profile, user, and posts
 //@access Private
+// router.delete('/', auth, async (req, res) => {
+//     try {
+//     //remove users posts
+//       await Post.deleteMany({ user: req.user.id })
+//     //remove profile
+//       await Profile.findOneAndRemove({user: req.user.id});
+//       //remove user
+//       await User.findOneAndRemove({ _id: req.user.id});
+//       res.json({ msg: 'User deleted'});
+//     } catch(err){
+//         console.error(err.message);
+//         if(err.kind == 'ObjectId') {
+//             return res.status(400).json({ msg: 'Profile not found'});
+//         }
+//         return res.status(500).send('Server error');
+//     }
+// });
 router.delete('/', auth, async (req, res) => {
-    try {
-    //remove users posts
-      await Post.deleteMany({ user: req.user.id })
-    //remove profile
-      await Profile.findOneAndRemove({user: req.user_id});
-      await User.findOneAndRemove({ _id: req.user.id});
-      res.json({ msg: 'User deleted'});
-    } catch(err){
-        console.error(err.message);
-        if(err.kind == 'ObjectId') {
-            return res.status(400).json({ msg: 'Profile not found'});
-        }
-        return res.status(500).send('Server error');
-    }
+  try {
+  //remove users posts
+    await Post.deleteMany({ user: req.user.id })
+  //remove profile
+    await Profile.findOneAndRemove({user: req.user.id});
+
+ // Find assignments assigned to the user
+ const assignments = await Assignment.find({ assignedTo: req.user.id });
+
+ // Remove the user from assignedTo array for each assignment
+ const updatePromises = assignments.map((assignment) => {
+   assignment.assignedTo = assignment.assignedTo.filter(
+     (assignedUserId) => assignedUserId.toString() !== req.user.id
+   );
+   return assignment.save();
+ });
+
+ // Wait for all assignment updates to complete
+ await Promise.all(updatePromises);
+
+
+    //remove user
+    await User.findOneAndRemove({ _id: req.user.id});
+    res.json({ msg: 'User deleted'});
+  } catch(err){
+      console.error(err.message);
+      if(err.kind == 'ObjectId') {
+          return res.status(400).json({ msg: 'Profile not found'});
+      }
+      return res.status(500).send('Server error');
+  }
 });
 
 //@route PUT api/profile/assignment
