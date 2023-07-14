@@ -17,6 +17,7 @@ router.post(
     [
     check('name', 'Name is required').notEmpty(),
     check('email', 'Please include a valid email').isEmail(),
+    check('phone', 'Please include a valid phone number'),
     check('password', 'Please enter a password with 6 or more characters').isLength({min: 6}),
 ],
    async (req, res) => {
@@ -36,7 +37,7 @@ try {
 
     //Create new user instance
     user = new User({
-        name, email, password
+        name, email, password, phone
     });
     // Encrypt password
     const salt = await bcrypt.genSalt(10);

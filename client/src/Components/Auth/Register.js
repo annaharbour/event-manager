@@ -9,11 +9,12 @@ const Register = ({ setAlert, register, isAuthenticated}) => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
+    phone: '',
     password: '',
     password2: ''
   });
 
-  const { name, email, password, password2 } = formData;
+  const { name, email, phone, password, password2 } = formData;
 
   const onChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -23,7 +24,7 @@ const Register = ({ setAlert, register, isAuthenticated}) => {
     if (password !== password2) {
       setAlert('Passwords do not match', 'danger');
     } else {
-      register({ name, email, password });
+      register({ name, email, phone, password });
     }
   };
 
@@ -55,6 +56,16 @@ const Register = ({ setAlert, register, isAuthenticated}) => {
             placeholder="Email Address"
             name="email"
             value={email}
+            onChange={onChange}
+          />
+        </div>
+        <div className="form-group">
+          <input
+            type="tel"
+            pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
+            placeholder="Phone Number"
+            name="phone"
+            value={phone}
             onChange={onChange}
           />
         </div>
