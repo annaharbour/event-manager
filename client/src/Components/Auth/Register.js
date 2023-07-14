@@ -61,8 +61,7 @@ const Register = ({ setAlert, register, isAuthenticated}) => {
         </div>
         <div className="form-group">
           <input
-            type="tel"
-            pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
+            type="text"
             placeholder="Phone Number"
             name="phone"
             value={phone}
